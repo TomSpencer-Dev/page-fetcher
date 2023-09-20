@@ -5,10 +5,12 @@ const request = require('request');
 const fs = require('fs');
 
 //Receive arguments from command line and assign them to variables
-const arguments = process.argv.slice(2);
-const URL = arguments[0];
-const LFP = arguments[1];
-const writeFile = function(filepath, html, callback) { fs.writeFile(filepath, html, callback); };
+const args = process.argv.slice(2);
+const URL = args[0];
+const LFP = args[1];
+const writeFile = function(filepath, html, callback) {
+  fs.writeFile(filepath, html, callback);
+};
 
 //Make http call
 const makeRequest = (callback) => request(URL, function(error, response, body) {
@@ -22,7 +24,9 @@ const requestResponse = function() {
     writeFile(LFP, html, err => {
       if (err) {
         console.error(err);
+        return;
       }
+      console.log(`Downloaded and saved ${html.length} bytes to ${LFP}`);
     });
   });
 
